@@ -212,7 +212,7 @@ export class Game {
 
   updateMatch(delta) {
     const mouse = this.input.consumeMouse();
-    if (this.input.pointerLocked) {
+    if (this.input.pointerLocked || this.input.touchLookActive) {
       this.cameraYaw -= mouse.x * 0.0025;
       this.cameraPitch = THREE.MathUtils.clamp(this.cameraPitch + mouse.y * 0.0017, 0.28, 0.78);
     }
