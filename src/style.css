@@ -238,3 +238,29 @@ kbd { display: inline-grid; place-items: center; min-width: 21px; height: 20px; 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.touch-controls { display: none; position: absolute; inset: 0; pointer-events: none; touch-action: none; }
+.touch-zone { position: absolute; left: 20px; bottom: 28px; width: 136px; height: 136px; border-radius: 50%; border: 1px solid rgba(228,248,239,.26); background: rgba(12,29,41,.42); box-shadow: inset 0 0 30px rgba(0,0,0,.18); pointer-events: auto; touch-action: none; }
+.touch-zone-ring { position: absolute; inset: 17px; border: 1px dashed rgba(228,248,239,.22); border-radius: 50%; }
+.touch-knob { position: absolute; width: 54px; height: 54px; left: 40px; top: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.55); background: rgba(112,226,201,.7); box-shadow: 0 4px 16px rgba(0,0,0,.25), inset 0 2px 5px rgba(255,255,255,.22); transform: translate(0,0); }
+.touch-zone-label { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; color: rgba(255,255,255,.55); font-size: 7px; font-weight: 800; letter-spacing: .16em; pointer-events: none; }
+.touch-action-cluster { position: absolute; right: 18px; bottom: 30px; display: grid; grid-template-columns: repeat(2, 64px); gap: 9px; pointer-events: auto; }
+.touch-btn { min-height: 56px; border: 1px solid rgba(255,255,255,.26); border-radius: 15px; background: rgba(15,32,45,.76); color: #f8f5e9; box-shadow: 0 6px 16px rgba(0,0,0,.18); backdrop-filter: blur(8px); touch-action: none; }
+.touch-btn b { display: block; font: 700 8px 'Space Grotesk'; letter-spacing: .08em; }
+.touch-btn.touch-jump { border-color: rgba(255,209,102,.6); background: rgba(111,82,31,.76); }
+.touch-btn.touch-interact { border-color: rgba(112,226,201,.55); background: rgba(25,83,76,.78); }
+.touch-btn.pressed { transform: scale(.94); filter: brightness(1.3); }
+@media (pointer: coarse) {
+  .touch-controls { display: block; }
+  .delivery-indicator { bottom: 179px; left: 18px; }
+  .interaction-prompt { bottom: 178px; }
+  .hud-controls { display: none; }
+}
+@media (max-width: 700px) and (pointer: coarse) {
+  .touch-zone { width: 124px; height: 124px; left: 12px; bottom: 20px; }
+  .touch-knob { left: 35px; top: 35px; width: 52px; height: 52px; }
+  .touch-action-cluster { right: 12px; bottom: 22px; grid-template-columns: repeat(2, 58px); gap: 7px; }
+  .touch-btn { min-height: 51px; border-radius: 13px; }
+  .delivery-indicator { bottom: 160px; left: 12px; min-width: 145px; }
+  .interaction-prompt { bottom: 160px; }
+}
