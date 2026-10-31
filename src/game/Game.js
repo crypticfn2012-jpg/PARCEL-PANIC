@@ -48,15 +48,17 @@ export class Game {
     this.cameraPitch = 0.43;
     this.cameraTarget = new THREE.Vector3();
     this.cameraDesired = new THREE.Vector3();
+    this.menuCameraPosition = new THREE.Vector3(19, 15, 27);
     this.clock = new THREE.Clock();
     this.elapsed = 0;
     this.lastBotDeliveryToast = 0;
     this.resize = this.resize.bind(this);
     this.frame = this.frame.bind(this);
-    window.addEventListener('resize', this.resize);
-    document.addEventListener('visibilitychange', () => {
+    this.handleVisibility = () => {
       if (document.hidden && this.state === 'playing') this.togglePause();
-    });
+    };
+    window.addEventListener('resize', this.resize);
+    document.addEventListener('visibilitychange', this.handleVisibility);
     this.resize();
     this.placeMenuRunners();
     this.updateCamera(0, true);
@@ -64,9 +66,15 @@ export class Game {
   }
 
   placeMenuRunners() {
+    this.player.carrying = null;
     this.player.position.set(0, 0, 0);
+    this.player.velocity.set(0, 0, 0);
     this.player.root.rotation.y = -0.4;
-    this.bots.forEach((bot, index) => bot.position.set(40 + index * 3, -30, 40));
+    this.bots.forEach((bot, index) => {
+      bot.carrying = null;
+      bot.position.set(40 + index * 3, -30, 40);
+      bot.velocity.set(0, 0, 0);
+    });
   }
 
   resize() {
@@ -86,10 +94,15 @@ export class Game {
     this.elapsed = 0;
     this.cameraYaw = 0;
     this.cameraPitch = 0.43;
-    this.runners.forEach((runner, index) => {
-      const point = index === 0 ? new THREE.Vector3(0, 0, 24) : this.world.spawnPoints[(index * 2) % this.world.spawnPoints.length];
-      runner.reset(point);
-    });
+    const matchSpawns = [
+      new THREE.Vector3(0, 0, 24),
+      new THREE.Vector3(-22, 0, 18),
+      new THREE.Vector3(-11, 0, 23),
+      new THREE.Vector3(12, 0, 23),
+      new THREE.Vector3(23, 0, 16),
+      new THREE.Vector3(-20, 0, -8)
+    ];
+    this.runners.forEach((runner, index) => runner.reset(matchSpawns[index]));
     this.parcels.reset();
     this.input.setEnabled(true);
     this.ui.showGame();
@@ -100,6 +113,7 @@ export class Game {
   returnToMenu() {
     this.state = 'menu';
     this.input.setEnabled(false);
+    this.parcels.reset();
     this.placeMenuRunners();
     this.ui.showMenu();
   }
@@ -139,7 +153,7 @@ export class Game {
 
   updateCamera(delta, snap = false) {
     if (this.state === 'menu' || !this.player) {
-      this.camera.position.lerp(new THREE.Vector3(19, 15, 27), snap ? 1 : Math.min(1, delta * 1.2));
+      this.camera.position.lerp(this.menuCameraPosition, snap ? 1 : Math.min(1, delta * 1.2));
       this.camera.lookAt(0, 1.1, 0);
       return;
     }
@@ -271,5 +285,6 @@ export class Game {
     this.input.destroy();
     this.renderer.dispose();
     window.removeEventListener('resize', this.resize);
+    document.removeEventListener('visibilitychange', this.handleVisibility);
   }
 }
