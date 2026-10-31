@@ -59,7 +59,7 @@ The production site is generated in the dist folder.
 
 ## GitHub Pages
 
-The workflow in .github/workflows/pages.yml builds the project on pushes to main and deploys the dist folder. In repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The configured Vite base path is /PARCEL-PANIC/.
+The workflow in .github/workflows/pages.yml runs a production build on every push to main. To publish, first enable Pages in repository settings and set **Pages → Build and deployment → Source** to **GitHub Actions**. Then open **Actions → Deploy Parcel Panic to GitHub Pages → Run workflow**. The deploy job is intentionally manual until Pages has been enabled. The configured Vite base path is /PARCEL-PANIC/.
 
 ## Project structure
 
