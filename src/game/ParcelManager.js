@@ -237,8 +237,8 @@ export class ParcelManager {
       if (parcel.dropExpires > 0) {
         parcel.velocity.y -= 18 * delta;
         parcel.mesh.position.addScaledVector(parcel.velocity, delta);
-        if (parcel.mesh.position.y < 0.47) {
-          parcel.mesh.position.y = 0.47;
+        if (parcel.mesh.position.y < 0.04) {
+          parcel.mesh.position.y = 0.04;
           parcel.velocity.y = Math.max(0, -parcel.velocity.y * 0.32);
           parcel.velocity.x *= 0.78;
           parcel.velocity.z *= 0.78;
